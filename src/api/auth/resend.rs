@@ -45,8 +45,6 @@ pub async fn resend_verification_email(
         })??;
 
     let user_id = user.id.clone();
-    let email = user.email.clone();
-
     let token = uuid::Uuid::new_v4().to_string();
     // create a new verify email token
     create_token(
@@ -61,7 +59,7 @@ pub async fn resend_verification_email(
 
     // send verification email
     tokio::spawn(async move {
-        let _ = smtp.send_verification_email(email, token);
+        let _ = smtp.send_verification_email(&user.email, token);
     });
 
     Ok(Json(json!({

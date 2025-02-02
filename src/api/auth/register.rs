@@ -57,7 +57,7 @@ pub async fn register(
     // send verification email
     // make sending email async as this might take some time
     tokio::spawn(async move {
-        smtp.send_verification_email(email, token).unwrap();
+        smtp.send_verification_email(&email, token).unwrap();
     });
     Ok((StatusCode::CREATED, Json(user)))
 }

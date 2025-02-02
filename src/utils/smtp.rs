@@ -78,10 +78,10 @@ impl SmtpService {
             forgot_password_link
         );
 
-        self.send_email_with_retries(html.to_owned(), "Reset password request".to_owned(), to, 0)
+        self.send_email_with_retries(html.to_owned(), "Reset password request".to_owned(), &to, 0)
     }
 
-    pub fn send_verification_email(&self, to: String, token: String) -> Result<(), ApiErrResp> {
+    pub fn send_verification_email(&self, to: &String, token: String) -> Result<(), ApiErrResp> {
         let default_host = self.get_host();
         let verification_link = format!("{}/api/auth/verify/{}", default_host, token);
         let html = format!(
@@ -133,7 +133,7 @@ impl SmtpService {
         &self,
         html: String,
         subject: String,
-        to: String,
+        to: &String,
         retries: i8,
     ) -> Result<(), ApiErrResp> {
         if retries > 5 {
